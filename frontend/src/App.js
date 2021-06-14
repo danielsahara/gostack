@@ -28,7 +28,9 @@ function App(){
         
         const project = response.data;
 
-        setProjects([...projects, project]);
+        api.get('/projects').then(response => {
+            setProjects(response.data);
+        });
         console.log(projects);
     }
 
