@@ -2,6 +2,7 @@ import User from "../models/User";
 import {getRepository} from "typeorm";
 import {compare, hash} from "bcryptjs";
 import {sign} from "jsonwebtoken";
+import authConfig from '../config/auth';
 
 interface Request {
     email: string;
@@ -35,9 +36,11 @@ class AuthenticateUserService {
 
         //usuario autenticado
 
-        const token = sign({  }, '17b727bc757a3283991f75b02c42a666', {
+        const { secret, expiresIn } = authConfig.jwt
+
+        const token = sign({  }, secret, {
             subject: user.id,
-            expiresIn: '1d',
+            expiresIn,
         });
 
         return{
